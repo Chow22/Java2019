@@ -31,7 +31,7 @@ public class DatosCursos implements Dao<Curso> {
 	public Iterable<Curso> obtenerTodos() throws SQLException {
 		Connection con = ConexionBD.Conexion();
 
-		String sql = "SELECT * FROM curso";
+		String sql = "SELECT c.codigo,c.nombre,c.identificador,c.nHoras,CONCAT(p.nombre,\" \",p.apellidos) as profesor FROM curso c JOIN profesor p ON c.profesor_codigo=p.codigo";
 
 		Statement s = con.createStatement();
 
@@ -39,7 +39,7 @@ public class DatosCursos implements Dao<Curso> {
 
 		Long contId = 0L;
 		while (rs.next()) {
-			cursos.put(contId, new Curso(rs.getLong("codigo"), rs.getString("nombre"), rs.getString("identificador"), rs.getInt("nHoras"), rs.getString("profesor_codigo")));
+			cursos.put(contId, new Curso(rs.getLong("codigo"), rs.getString("nombre"), rs.getString("identificador"), rs.getInt("nHoras"), rs.getString("profesor")));
 			contId++;
 		}
 		return cursos.values();
@@ -58,7 +58,7 @@ public class DatosCursos implements Dao<Curso> {
 			ResultSet rs = s.executeQuery(sql);
 
 			while (rs.next()) {
-				curso =new Curso(rs.getLong("id"), rs.getString("nombre"), rs.getString("identificador"), rs.getInt("numHoras"), rs.getString("profesor"));
+				curso =new Curso(rs.getLong("id"), rs.getString("nombre"), rs.getString("identificador"), rs.getInt("nHoras"), rs.getString("profesor"));
 			}
 			rs.close();
 			s.close();
@@ -74,15 +74,14 @@ public class DatosCursos implements Dao<Curso> {
 	public Curso agregar(Curso curso) throws SQLException {
 		Connection con = ConexionBD.Conexion();
 
-		String sql = "INSERT INTO cursos (nombre, apellidos, dni) VALUES (?, ?, ?)";
+		String sql = "INSERT INTO curso (nombre, identificador, nhoras,profesor_codigo) VALUES (?, ?, ?,?)";
 
 		PreparedStatement ps = con.prepareStatement(sql);
 
-		ps.setLong(1, curso.getId());
-		ps.setString(2, curso.getNombre());
-		ps.setString(3, curso.getIdentificador());
-		ps.setInt(4, curso.getNumHoras());
-		ps.setString(5, curso.getProfesor());
+		ps.setString(1, curso.getNombre());
+		ps.setString(2, curso.getIdentificador());
+		ps.setInt(3, curso.getNumHoras());
+		ps.setString(4, curso.getProfesor());
 
 
 		int numeroRegistrosModificados = ps.executeUpdate();
