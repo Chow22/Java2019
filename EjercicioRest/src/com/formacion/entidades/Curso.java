@@ -4,14 +4,14 @@ public class Curso {
 	private Long id;
 	private String nombre;
 	private String identificador;
-	private String numHoras;
+	private int numHoras;
 	private String profesor;
-	
+
 	public Curso() {
 		super();
 	}
 
-	public Curso(Long id, String nombre, String identificador, String numHoras, String profesor) {
+	public Curso(Long id, String nombre, String identificador, int numHoras, String profesor) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
@@ -44,11 +44,11 @@ public class Curso {
 		this.identificador = identificador;
 	}
 
-	public String getNumHoras() {
+	public int getNumHoras() {
 		return numHoras;
 	}
 
-	public void setNumHoras(String numHoras) {
+	public void setNumHoras(int numHoras) {
 		this.numHoras = numHoras;
 	}
 
@@ -67,7 +67,7 @@ public class Curso {
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((identificador == null) ? 0 : identificador.hashCode());
 		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
-		result = prime * result + ((numHoras == null) ? 0 : numHoras.hashCode());
+		result = prime * result + numHoras;
 		result = prime * result + ((profesor == null) ? 0 : profesor.hashCode());
 		return result;
 	}
@@ -96,10 +96,7 @@ public class Curso {
 				return false;
 		} else if (!nombre.equals(other.nombre))
 			return false;
-		if (numHoras == null) {
-			if (other.numHoras != null)
-				return false;
-		} else if (!numHoras.equals(other.numHoras))
+		if (numHoras != other.numHoras)
 			return false;
 		if (profesor == null) {
 			if (other.profesor != null)
@@ -114,10 +111,5 @@ public class Curso {
 		return "Curso [id=" + id + ", nombre=" + nombre + ", identificador=" + identificador + ", numHoras=" + numHoras
 				+ ", profesor=" + profesor + "]";
 	}
-	
-	
-	
-	
-	
-	
+
 }
