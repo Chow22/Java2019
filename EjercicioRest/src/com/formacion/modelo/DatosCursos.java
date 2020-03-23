@@ -31,7 +31,7 @@ public class DatosCursos implements Dao<Curso> {
 	public Iterable<Curso> obtenerTodos() throws SQLException {
 		Connection con = ConexionBD.Conexion();
 
-		String sql = "SELECT c.codigo,c.nombre,c.identificador,c.nHoras,CONCAT(p.nombre,\" \",p.apellidos) as profesor FROM curso c JOIN profesor p ON c.profesor_codigo=p.codigo";
+		String sql = "SELECT c.codigo,c.nombre,c.identificador,c.nHoras,CONCAT(p.nombre,\" \",p.apellidos) as profesor FROM curso c JOIN profesor p ON c.profesor_codigo=p.codigo;";
 
 		Statement s = con.createStatement();
 
@@ -46,19 +46,19 @@ public class DatosCursos implements Dao<Curso> {
 	}
 
 	@Override
-	public Curso obtenerPorId(int id) {
+	public Curso obtenerPorId(Long id) {
 		Curso curso = null;
 		try {
 			Connection con = ConexionBD.Conexion();
 
-			String sql = "SELECT * FROM cursos where id=" + id;
+			String sql = "SELECT c.codigo,c.nombre,c.identificador,c.nHoras,CONCAT(p.nombre,\" \",p.apellidos) as profesor FROM curso c JOIN profesor p ON c.profesor_codigo=p.codigo where c.codigo=" + id +";";
 
 			Statement s = con.createStatement();
 
 			ResultSet rs = s.executeQuery(sql);
 
 			while (rs.next()) {
-				curso =new Curso(rs.getLong("id"), rs.getString("nombre"), rs.getString("identificador"), rs.getInt("nHoras"), rs.getString("profesor"));
+				curso =new Curso(rs.getLong("codigo"), rs.getString("nombre"), rs.getString("identificador"), rs.getInt("nHoras"), rs.getString("profesor"));
 			}
 			rs.close();
 			s.close();
@@ -74,7 +74,7 @@ public class DatosCursos implements Dao<Curso> {
 	public Curso agregar(Curso curso) throws SQLException {
 		Connection con = ConexionBD.Conexion();
 
-		String sql = "INSERT INTO curso (nombre, identificador, nhoras,profesor_codigo) VALUES (?, ?, ?,?)";
+		String sql = "INSERT INTO curso (nombre, identificador, nhoras,profesor_codigo) VALUES (?, ?, ?,?);";
 
 		PreparedStatement ps = con.prepareStatement(sql);
 
@@ -101,7 +101,7 @@ public class DatosCursos implements Dao<Curso> {
 	public Curso modificar(Curso curso) throws SQLException {
 		Connection con = ConexionBD.Conexion();
 
-		String sql = "UPDATE cursos SET nombre = ?, apellidos = ?, dni = ? WHERE id = ?";
+		String sql = "UPDATE curso SET nombre = ?, identificador = ?, nhoras = ?, profesor_codigo=? WHERE codigo = ?;";
 
 		PreparedStatement ps = con.prepareStatement(sql);
 
@@ -132,7 +132,7 @@ public class DatosCursos implements Dao<Curso> {
 
 		try {
 			Connection con = ConexionBD.Conexion();
-			String sql = "DELETE FROM cursos WHERE id = ?";
+			String sql = "DELETE FROM cursos WHERE id = ?;";
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps = con.prepareStatement(sql);
 			ps.setInt(1, id);

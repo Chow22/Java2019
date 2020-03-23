@@ -5,7 +5,7 @@ import java.sql.SQLException;
 public interface Dao<T> {
 	public Iterable<T> obtenerTodos() throws SQLException;
 
-	public T obtenerPorId(int id);
+	public T obtenerPorId(Long id);
 
 	public T agregar(T t) throws SQLException;
 

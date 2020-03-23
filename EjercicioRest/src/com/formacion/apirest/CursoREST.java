@@ -69,9 +69,10 @@ public class CursoREST {
 	@Path("/{id: \\d+}")
 	public Curso getById(@PathParam("id") Long id) {
 		LOGGER.info("getById(" + id + ")");
+		Dao<Curso> dao = DatosCursos.getInstancia();		
+		
+		return dao.obtenerPorId(id);
 
-
-		return cursos.get(id);
 	}
 
 	@POST
@@ -94,7 +95,14 @@ public class CursoREST {
 	public Curso update(@PathParam("id") Long id, Curso curso) {
 		LOGGER.info("update(" + id + ", " + curso + ")");
 
-
+		Dao<Curso> dao = DatosCursos.getInstancia();
+		
+		curso = new Curso(id,curso.getNombre(),curso.getIdentificador(),curso.getNumHoras(),curso.getProfesor());
+			try {
+				dao.modificar(curso);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 
 		return curso;
 	}
