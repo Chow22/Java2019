@@ -128,14 +128,14 @@ public class DatosCursos implements Dao<Curso> {
 	}
 
 	@Override
-	public void borrar(int id) {
+	public void borrar(Long id) {
 
 		try {
 			Connection con = ConexionBD.Conexion();
-			String sql = "DELETE FROM cursos WHERE id = ?;";
+			String sql = "DELETE FROM curso WHERE codigo = ?;";
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps = con.prepareStatement(sql);
-			ps.setInt(1, id);
+			ps.setLong(1, id);
 
 			ps.executeUpdate();
 

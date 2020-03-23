@@ -111,9 +111,10 @@ public class CursoREST {
 	@Path("/{id: \\d+}")
 	public String delete(@PathParam("id") Long id) {
 		LOGGER.info("delete(" + id + ")");
-
-
-
+		Dao<Curso> dao = DatosCursos.getInstancia();		
+		
+		dao.borrar(id);
+		
 		return "{}";
 	}
 }

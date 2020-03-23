@@ -11,5 +11,6 @@ public interface Dao<T> {
 
 	public T modificar(T t) throws SQLException;
 
-	public void borrar(int id);
+	public void borrar(Long id);
+
 }
